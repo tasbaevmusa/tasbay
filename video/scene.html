@@ -1,0 +1,74 @@
+<!doctype html><html lang="kk"><head><meta charset="utf-8"><title>Claude AI ролик</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0b0b10;font-family:Inter,sans-serif;color:#fff}
+#bg{position:absolute;inset:0}
+.s{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 70px;opacity:0}
+.big{font-size:132px;font-weight:900;line-height:1.02;letter-spacing:-3px}
+.mid{font-size:86px;font-weight:800;line-height:1.1}
+.sm{font-size:54px;font-weight:600;opacity:.85;line-height:1.3}
+.or{color:#ff8a3d}.gr{background:linear-gradient(90deg,#ffb36b,#ff5e3a,#d97757);-webkit-background-clip:text;color:transparent}
+.card{width:820px;padding:38px 46px;margin:22px 0;border-radius:32px;background:#1b1b26;border:3px solid #2e2e44;font-size:68px;font-weight:800;display:flex;justify-content:space-between;align-items:center;position:relative}
+.card .x{color:#ff3b3b;font-size:90px}
+.card .line{position:absolute;left:30px;top:50%;height:10px;background:#ff3b3b;border-radius:5px}
+.stop{width:300px;height:300px;border-radius:50%;background:#e8262b;display:flex;align-items:center;justify-content:center;font-size:150px;margin-bottom:60px;box-shadow:0 0 120px #e8262b88}
+.prompt{width:900px;min-height:300px;border-radius:36px;background:#17171f;border:3px solid #d97757;padding:44px;text-align:left;font-size:54px;font-family:'DejaVu Sans Mono',monospace;color:#f3e7dc}
+.cursor{display:inline-block;width:28px;height:58px;background:#d97757;vertical-align:middle}
+.clock{width:360px;height:360px;border-radius:50%;border:14px solid #fff;position:relative;margin-bottom:70px}
+.hand{position:absolute;left:50%;bottom:50%;width:14px;margin-left:-7px;background:#ff8a3d;border-radius:7px;transform-origin:50% 100%}
+.sub{position:absolute;bottom:150px;left:60px;right:60px;text-align:center;font-size:44px;font-weight:700;background:#000a;padding:22px 30px;border-radius:24px}
+.tag{font-size:40px;font-weight:700;letter-spacing:8px;color:#d97757;margin-bottom:30px}
+.star{position:absolute;left:50%;top:50%;width:1600px;height:1600px;margin:-800px;background:repeating-conic-gradient(#d9775722 0 6deg,transparent 6deg 12deg);border-radius:50%}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.bar{position:absolute;left:0;top:0;height:12px;background:linear-gradient(90deg,#ff8a3d,#d97757)}
+</style></head><body>
+<canvas id="bg" width="1080" height="1920"></canvas>
+<div class="s" id="s0"><div class="stop">✋</div><div class="big">Жоқ-жоқ,<br>достар!</div><div class="mid or" style="margin-top:40px">Тоқтаңыздар!</div></div>
+<div class="s" id="s1"><div class="sm" style="margin-bottom:50px">Бұл видеоны жасаған жоқ:</div>
+ <div class="card"><span>After Effects</span><span class="x">✕</span><i class="line"></i></div>
+ <div class="card"><span>Premiere Pro</span><span class="x">✕</span><i class="line"></i></div>
+ <div class="card"><span>DaVinci Resolve</span><span class="x">✕</span><i class="line"></i></div></div>
+<div class="s" id="s2"><div class="mid" style="font-style:italic;font-weight:500;opacity:.8">Тіпті сенбей<br>қалуыңыз мүмкін…</div></div>
+<div class="s" id="s3"><div class="star"></div><div class="mid">Мұның бәрін</div><div class="big gr" style="font-size:230px">AI</div><div class="big">Claude<br>жасады!</div></div>
+<div class="s" id="s4"><div class="big">Иә, иә!</div><div class="mid or" style="margin-top:30px">Дұрыс естідіңіз!</div></div>
+<div class="s" id="s5"><div class="star"></div><div class="big gr" style="font-size:210px">Claude!</div><div class="mid" style="margin-top:30px">Жасанды<br>интеллект!</div></div>
+<div class="s" id="s6"><div class="tag">БҰРЫН</div><div class="clock"><div class="hand" id="h1" style="height:150px"></div><div class="hand" id="h2" style="height:110px;background:#fff"></div></div><div class="mid">Бірнеше сағат<br>монтаж</div><div class="sm" style="margin-top:30px">+ түрлі бағдарламаларды меңгеру</div></div>
+<div class="s" id="s7"><div class="big">Ал қазір<br><span class="or">ше?</span></div></div>
+<div class="s" id="s8"><div class="tag">ҚАЗІР</div><div class="prompt" id="pr"></div><div class="big gr" id="done" style="margin-top:70px">Дайын! ✓</div></div>
+<div class="s" id="s9"><div class="sm">Айтпақшы, менің есімім</div><div class="big gr" style="margin:30px 0">Мұса<br>Тасбаев</div><div class="sm">AI · креатив · қызықты дүниелер</div></div>
+<div class="s" id="s10"><div class="mid">Ал сіз бұның</div><div class="big gr" style="margin:20px 0">AI</div><div class="mid">жасағанына<br>сендіңіз бе?</div><div class="sm" style="margin-top:70px">👇 Пікірде жазыңыз</div></div>
+<div class="sub" id="sub"></div>
+<div class="flash" id="flash"></div><div class="bar" id="bar"></div>
+<script>
+// [start,end,subtitle]
+const S=[[0,2.6,"Жоқ-жоқ, достар! Тоқтаңыздар!"],[2.6,6.6,"Бұл видеоны After Effects те, Premiere Pro да, DaVinci Resolve та жасаған жоқ!"],[6.6,8.6,"Тіпті сенбей қалуыңыз мүмкін…"],[8.6,11.4,"Мұның бәрін AI — Claude жасады!"],[11.4,13.2,"Иә, иә! Дұрыс естідіңіз!"],[13.2,15.4,"Claude! Жасанды интеллект!"],[15.4,20.4,"Бұрын осындай нәтижеге жету үшін бірнеше сағат монтаж жасап, түрлі бағдарламаларды меңгеру керек болатын."],[20.4,22,"Ал қазір ше?"],[22,26.4,"Бір ғана идея, дұрыс жазылған промпт — және дайын!"],[26.4,31,"Айтпақшы, менің есімім — Мұса Тасбаев! Мен жасанды интеллект пен креатив әлеміндегі қызықты дүниелерді көрсетемін!"],[31,35,"Ал сіз бұның AI жасағанына сендіңіз бе?"]];
+const DUR=35, P="> Claude, маған вертикаль\n  промо-ролик жаса:\n  кинетикалық мәтін,\n  жарқын түстер, 30 сек.";
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)), ease=x=>1-Math.pow(1-cl(x),3), back=x=>{x=cl(x);const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const bg=document.getElementById('bg').getContext('2d');
+const dots=[...Array(70)].map((_,i)=>({x:(i*397)%1080,y:(i*911)%1920,r:2+i%5,v:20+(i*13)%60}));
+function drawBg(t,hue){const g=bg.createRadialGradient(540,800+Math.sin(t)*120,100,540,960,1300);g.addColorStop(0,`hsl(${hue},70%,22%)`);g.addColorStop(1,'#07070b');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);bg.fillStyle='#ffffff22';for(const d of dots){bg.beginPath();bg.arc(d.x,(d.y-t*d.v+1920*5)%1920,d.r,0,7);bg.fill()}}
+window.render=function(t){
+ const HUES=[0,220,260,22,190,22,210,280,22,22,30];
+ let cur=S.findIndex(s=>t>=s[0]&&t<s[1]); if(cur<0)cur=S.length-1;
+ drawBg(t,HUES[cur]);
+ S.forEach((s,i)=>{const el=document.getElementById('s'+i);const lt=t-s[0],len=s[1]-s[0];
+  if(i!==cur){el.style.opacity=0;return}
+  const inn=ease(lt/0.35),out=1-ease((lt-len+0.25)/0.25);
+  el.style.opacity=Math.min(inn,out);
+  let sc=0.6+0.4*back(lt/0.45),tr='';
+  if(i==0){tr=`translateX(${Math.sin(lt*60)*18*Math.max(0,1-lt*2)}px)`}
+  if(i==2){sc=1+lt*0.04}
+  el.style.transform=`${tr} scale(${sc})`;
+  if(i==1)[...el.querySelectorAll('.card')].forEach((c,k)=>{const a=lt-0.3-k*0.9;c.style.opacity=ease(a/0.3);c.style.transform=`translateX(${(1-ease(a/0.35))*-600}px)`;c.querySelector('.line').style.width=(ease((a-0.45)/0.3)*760)+'px'});
+  if(i==3||i==5)el.querySelector('.star').style.transform=`rotate(${lt*25}deg)`;
+  if(i==6){document.getElementById('h1').style.transform=`rotate(${lt*720}deg)`;document.getElementById('h2').style.transform=`rotate(${lt*60}deg)`}
+  if(i==8){const n=Math.floor(cl((lt-0.3)/2.4)*P.length);document.getElementById('pr').innerHTML=P.slice(0,n).replace(/\n/g,'<br>')+(Math.floor(lt*3)%2?'':'<span class="cursor"></span>');const d=document.getElementById('done');d.style.opacity=lt>3?1:0;d.style.transform=`scale(${back((lt-3)/0.4)})`}
+ });
+ const sub=document.getElementById('sub');sub.textContent=S[cur][2];
+ const fl=S.reduce((m,s)=>Math.max(m,1-Math.abs(t-s[0])/0.12),0);
+ document.getElementById('flash').style.opacity=cl(fl)*0.5;
+ document.getElementById('bar').style.width=(t/DUR*1080)+'px';
+};
+window.DUR=DUR;window.CUTS=S.map(s=>s[0]);
+if(!navigator.webdriver){const t0=performance.now();(function f(){render(((performance.now()-t0)/1000)%DUR);requestAnimationFrame(f)})()}
+</script></body></html>
